@@ -12,7 +12,7 @@ void isr_handler(struct regs *r)
 {
 	if (r->int_no < 32)
 	{
-		printf("Received interrupt");
+		printf("Received interrupt %i", (int)r->int_no);
 		for (;;);
 	}
 	
