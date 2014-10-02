@@ -6,7 +6,7 @@
 */
 
 #include <stdio.h>
-#include <kernel/isr.h>
+#include <kernel/portio.h>
 
 void isr_handler(struct regs *r)
 {

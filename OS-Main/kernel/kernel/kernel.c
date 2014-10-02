@@ -5,6 +5,7 @@
 
 #include <kernel/tty.h>
 #include <kernel/descriptor_tables.h>
+#include <kernel/timer.h>
 
 /* Hardware text mode color constants. */
 
@@ -19,16 +20,22 @@ void kernel_early(void)
 	printf("Initializing descriptor tables...\n");
 
 	init_descriptor_tables();
+	
+	printf("Initializing IRQ...\n");
+	irq_install();
 
+	printf("Initializing Timer...\n");
+	timer_install();
+
+	asm volatile ("sti");
 	printf("\n--- PRE-BOOT PROCESS END ---\n\n");
 }
 
-int kernel_main()
+void kernel_main()
 {
 	printf("RatOS: Version 0.03:\n");
 
-	//asm volatile("int $0x0");
-
-	return 1/0;
+	//asm volatile("int $0x45");
+	
 }
 
