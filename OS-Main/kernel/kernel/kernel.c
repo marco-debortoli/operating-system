@@ -6,6 +6,7 @@
 #include <kernel/tty.h>
 #include <kernel/descriptor_tables.h>
 #include <kernel/timer.h>
+#include <kernel/keyboard.h>
 
 /* Hardware text mode color constants. */
 
@@ -26,6 +27,9 @@ void kernel_early(void)
 
 	printf("Initializing Timer...\n");
 	timer_install();
+
+	printf("Initializing keyboard...\n");
+	keyboard_install();
 
 	asm volatile ("sti");
 	printf("\n--- PRE-BOOT PROCESS END ---\n\n");

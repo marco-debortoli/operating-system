@@ -16,11 +16,6 @@ int timer_ticks = 0;
 void timer_handler(struct regs *r)
 {
 	timer_ticks++;
-	
-	if (timer_ticks % 18 == 0)
-	{
-		printf("One second has passed\n");
-	}
 }
 
 void timer_wait(int ticks)
