@@ -8,6 +8,7 @@
 
 size_t terminal_row;
 size_t terminal_column;
+size_t terminal_session;
 uint8_t terminal_color;
 uint16_t* terminal_buffer;
 char* command;
@@ -63,7 +64,7 @@ void terminal_scroll()
 {
 
 	// Move all other lines up
-	for (size_t y = 1; y < VGA_HEIGHT; y++)
+	for (size_t y = 2; y < VGA_HEIGHT; y++)
 	{
 		for (size_t x = 0; x < VGA_WIDTH; x++)
 		{
@@ -80,6 +81,12 @@ void terminal_scroll()
 
 }
 
+void terminal_startline ( )
+{
+	terminal_putentryat('>', make_color(COLOR_RED, COLOR_BLACK), terminal_column, terminal_row);
+	terminal_column += 2;
+}
+
 void terminal_putchar(char c)
 {
 
@@ -89,8 +96,12 @@ void terminal_putchar(char c)
 	{
 		case '\n':
 			terminal_column = 0;
+			terminal_session = 0;
 			terminal_row++;
 			if ( terminal_row == VGA_HEIGHT ) terminal_scroll();
+			
+			terminal_startline ( terminal_row, terminal_column );
+			
 			move_cursor(terminal_row, terminal_column);
 			break;
 
@@ -108,12 +119,24 @@ void terminal_putchar(char c)
 			break;
 				
 		case '\b':
+			if ( terminal_session == 0 )
+			{
+				// Do nothing (Don't want to be able to backspace more than current command ('>'))
+				break;
+			}
+
 			if ( terminal_column == 0 )
 			{
 				terminal_column = VGA_WIDTH - 1;
 				terminal_row--;
+				terminal_session--;
 			}
-			else terminal_column--;
+			else 
+			{
+				terminal_column--;
+				terminal_session--;
+			}
+
 			terminal_putentryat(' ', terminal_color, terminal_column, terminal_row);
 			move_cursor(terminal_row, terminal_column);
 			break;			
@@ -125,7 +148,7 @@ void terminal_putchar(char c)
 				terminal_column = 0;
 				if ( ++terminal_row == VGA_HEIGHT ) terminal_scroll();
 			}
-			
+			terminal_session++;
 			move_cursor(terminal_row, terminal_column);
 			break;
 	}
@@ -143,4 +166,16 @@ void terminal_write(const char* data, size_t size)
 {
 	for ( size_t i = 0; i < size; i++ )
 		terminal_putchar(data[i]);
+}
+
+void terminal_setup()
+{
+	terminal_color = make_color(COLOR_WHITE, COLOR_DARK_GREY);
+	terminal_writestring("\tMARCO-OS: Version 0.03");
+	for ( size_t i = 0; i < VGA_WIDTH - 27; i++ )
+	{
+		terminal_putchar(' ');
+	}
+	terminal_putchar('\n');
+	terminal_color = make_color(COLOR_LIGHT_GREY, COLOR_BLACK);
 }

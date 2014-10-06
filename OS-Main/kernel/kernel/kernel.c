@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 #include <kernel/tty.h>
 #include <kernel/descriptor_tables.h>
@@ -11,34 +12,37 @@
 /* Hardware text mode color constants. */
 
 uint16_t VERSION = 0.03;
+bool DEBUG = false;
 
 void kernel_early(void)
 {
 	terminal_initialize();
-
-	printf("--- PRE-BOOT PROCESS BEGUN ---\n\n");
-	printf("Initializing terminal...\n");
-	printf("Initializing descriptor tables...\n");
+	if ( DEBUG )
+	{
+		printf("--- PRE-BOOT PROCESS BEGUN ---\n\n");
+		printf("Initializing terminal...\n");
+		printf("Initializing descriptor tables...\n");
+	}
 
 	init_descriptor_tables();
 	
-	printf("Initializing IRQ...\n");
+	if ( DEBUG ) printf("Initializing IRQ...\n");
 	irq_install();
 
-	printf("Initializing Timer...\n");
+	if ( DEBUG ) printf("Initializing Timer...\n");
 	timer_install();
 
-	printf("Initializing keyboard...\n");
+	if ( DEBUG ) printf("Initializing keyboard...\n");
 	keyboard_install();
 
 	asm volatile ("sti");
-	printf("\n--- PRE-BOOT PROCESS END ---\n\n");
+	if ( DEBUG ) printf("\n--- PRE-BOOT PROCESS END ---\n\n");
 }
 
 void kernel_main()
 {
-	printf("RatOS: Version 0.03:\n\n");
-
+	terminal_setup();
+	
 	//asm volatile("int $0x45");
 	
 }

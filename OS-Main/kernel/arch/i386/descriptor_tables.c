@@ -34,11 +34,9 @@ idt_ptr_t idt_ptr;
 void init_descriptor_tables()
 {
 	// Initialize the global descriptor table
-	printf("Initializing GDT...\n");
 	init_gdt();
 	
 	// Initialize the interrupt descriptor table
-	printf("Initializing IDT...\n");
 	init_idt();
 }
 
@@ -118,8 +116,6 @@ static void init_idt()
         idt_set_gate( 29, (uint32_t)isr29 , 0x08, 0x8E );
         idt_set_gate( 30, (uint32_t)isr30 , 0x08, 0x8E );
         idt_set_gate( 31, (uint32_t)isr31 , 0x08, 0x8E );
-	
-	printf("Initializing IDT - IRQ Tables...\n");
 
 	idt_set_gate( 32, (uint32_t)irq0 , 0x08, 0x8E );
 	idt_set_gate( 33, (uint32_t)irq1 , 0x08, 0x8E );
