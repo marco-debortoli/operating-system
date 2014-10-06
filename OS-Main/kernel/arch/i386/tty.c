@@ -4,11 +4,13 @@
 #include <string.h>
  
 #include <kernel/vga.h>
+#include <kernel/portio.h>
 
 size_t terminal_row;
 size_t terminal_column;
 uint8_t terminal_color;
 uint16_t* terminal_buffer;
+char* command;
 
 void terminal_initialize()
 {
@@ -46,20 +48,15 @@ void clear_line(uint16_t line)
 	}
 }
 
-void outb(unsigned short port, unsigned char value)
-{
-	asm volatile ( "outb %0, %1" : : "a"(value), "Nd"(port) );
-}
-
 void move_cursor(int row, int col)
 {
 	unsigned short location = (row*80) + col;
 
-	outb(0x3D4, 0x0F); 
-	outb(0x3D5, (char)(location&0xFF));
+	outportb(0x3D4, 0x0F); 
+	outportb(0x3D5, (char)(location&0xFF));
 
-	outb(0x3D4, 0x0E);
-	outb(0x3D5, (unsigned char)((location >> 8)&0xFF));
+	outportb(0x3D4, 0x0E);
+	outportb(0x3D5, (unsigned char)((location >> 8)&0xFF));
 }	
 
 void terminal_scroll()
@@ -86,31 +83,52 @@ void terminal_scroll()
 void terminal_putchar(char c)
 {
 
-	if ( c == '\n' )
-	{
-		terminal_column = 0;
-		terminal_row++ ;
-		if ( terminal_row == VGA_HEIGHT) 
-		{
-			terminal_scroll();
-		}
-		
-		move_cursor(terminal_row, terminal_column);
-		
-		return;
-	}
+	// Special characters "\n" "\t" "\b"
 
-	terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
-	if ( ++terminal_column == VGA_WIDTH )
+	switch ( c )
 	{
-		terminal_column = 0;
-		if ( ++terminal_row == VGA_HEIGHT )
-		{
-			terminal_scroll();
-		}
-	}
+		case '\n':
+			terminal_column = 0;
+			terminal_row++;
+			if ( terminal_row == VGA_HEIGHT ) terminal_scroll();
+			move_cursor(terminal_row, terminal_column);
+			break;
 
-	move_cursor(terminal_row, terminal_column);
+		case '\t':
+			for ( uint32_t i = 0; i < 5; i++ )
+			{
+				terminal_putentryat(' ', terminal_color, terminal_column, terminal_row);
+				if ( ++terminal_column == VGA_WIDTH )
+				{
+					terminal_column = 0;
+					if ( ++terminal_row == VGA_HEIGHT ) terminal_scroll();
+				}
+			}
+			move_cursor(terminal_row, terminal_column);
+			break;
+				
+		case '\b':
+			if ( terminal_column == 0 )
+			{
+				terminal_column = VGA_WIDTH - 1;
+				terminal_row--;
+			}
+			else terminal_column--;
+			terminal_putentryat(' ', terminal_color, terminal_column, terminal_row);
+			move_cursor(terminal_row, terminal_column);
+			break;			
+	
+		default:
+			terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
+			if ( ++terminal_column == VGA_WIDTH )
+			{
+				terminal_column = 0;
+				if ( ++terminal_row == VGA_HEIGHT ) terminal_scroll();
+			}
+			
+			move_cursor(terminal_row, terminal_column);
+			break;
+	}
 }
 
 void terminal_writestring(const char* data)

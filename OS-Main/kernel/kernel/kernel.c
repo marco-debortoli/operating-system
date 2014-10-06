@@ -37,7 +37,7 @@ void kernel_early(void)
 
 void kernel_main()
 {
-	printf("RatOS: Version 0.03:\n");
+	printf("RatOS: Version 0.03:\n\n");
 
 	//asm volatile("int $0x45");
 	

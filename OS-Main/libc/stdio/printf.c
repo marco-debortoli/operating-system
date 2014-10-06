@@ -126,3 +126,8 @@ int printf(const char* restrict format, ...)
  
 	return written;
 }
+
+int printchar(char c)
+{
+	return printf("%c", c);
+}

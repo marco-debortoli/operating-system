@@ -109,7 +109,7 @@ void keyboard_handler(struct regs *r)
 	else
 	{
 		// Key is just pressed
-		printf("%c", kbdus[scancode]);
+		printchar(kbdus[scancode]);
 	}
 }
 
