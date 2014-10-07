@@ -114,6 +114,7 @@ void terminal_putchar(char c)
 					terminal_column = 0;
 					if ( ++terminal_row == VGA_HEIGHT ) terminal_scroll();
 				}
+				terminal_session++;
 			}
 			move_cursor(terminal_row, terminal_column);
 			break;
