@@ -12,11 +12,23 @@
 
 int LEFT_SHIFT_KEY_RELEASED_SCANCODE = 170;
 int LEFT_SHIFT_KEY_PRESSED_SCANCODE = 42;
+
+int RIGHT_SHIFT_KEY_RELEASED_SCANCODE = 182;
+int RIGHT_SHIFT_KEY_PRESSED_SCANCODE = 54;
+
 bool SHIFT_KEY_PRESSED = false;
 
 int CAPS_KEY_PRESSED_SCANCODE = 58;
 int CAPS_KEY_RELEASED_SCANCODE = 187;
 bool CAPS_KEY_PRESSED = false;
+
+int CONTROL_PRESSED_SCANCODE = 29;
+int CONTROL_RELEASED_SCANCODE = 157;
+bool CONTROL_KEY_PRESSED = false;
+
+int ALT_PRESSED_SCANCODE = 56;
+int ALT_RELEASED_SCANCODE = 184;
+bool ALT_KEY_PRESSED = false;
 
 unsigned char kbdus[256] =
 {
@@ -196,18 +208,52 @@ void keyboard_handler(struct regs *r)
 	// Key is just released
 	if (scancode & 0x80)
 	{
-		if ( scancode == LEFT_SHIFT_KEY_RELEASED_SCANCODE ) SHIFT_KEY_PRESSED = false;
+		// Shift key
+		if ( scancode == LEFT_SHIFT_KEY_RELEASED_SCANCODE || scancode == RIGHT_SHIFT_KEY_RELEASED_SCANCODE ) 
+		{
+			SHIFT_KEY_PRESSED = false;
+		}
+
+		// Control key
+		if ( scancode == CONTROL_RELEASED_SCANCODE )
+		{ 
+			CONTROL_KEY_PRESSED = false;
+		}
+
+		// Alt key
+		if ( scancode == ALT_RELEASED_SCANCODE )
+		{ 
+			ALT_KEY_PRESSED = false;
+		}
+
 	}
 	else
 	{
 
-		if ( scancode == LEFT_SHIFT_KEY_PRESSED_SCANCODE ) SHIFT_KEY_PRESSED = true;
+		// Shift keys
+		if ( scancode == LEFT_SHIFT_KEY_PRESSED_SCANCODE || scancode == RIGHT_SHIFT_KEY_PRESSED_SCANCODE )
+		{ 
+			SHIFT_KEY_PRESSED = true;
+		}
+
+		// Caps key
 		if ( scancode == CAPS_KEY_PRESSED_SCANCODE ) CAPS_KEY_PRESSED = ! CAPS_KEY_PRESSED;
+
+		// Control key
+		if ( scancode == CONTROL_PRESSED_SCANCODE )
+		{ 
+			CONTROL_KEY_PRESSED = true;
+		}
+
+		// Alt key
+		if ( scancode == ALT_PRESSED_SCANCODE )
+		{ 
+			ALT_KEY_PRESSED = true;
+		}
 
 		if ( SHIFT_KEY_PRESSED || CAPS_KEY_PRESSED ) scancode = scancode + 128;
 		if ( kbdus[scancode] != 0 )
 			printchar(kbdus[scancode]);
-
 
 	}
 }
