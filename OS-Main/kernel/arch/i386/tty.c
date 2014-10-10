@@ -60,6 +60,16 @@ void move_cursor(int row, int col)
 	outportb(0x3D5, (unsigned char)((location >> 8)&0xFF));
 }	
 
+size_t terminal_getrow( )
+{
+	return terminal_row;
+}
+
+size_t terminal_getcolumn( )
+{
+	return terminal_column;
+}
+
 void terminal_scroll()
 {
 
@@ -90,7 +100,7 @@ void terminal_startline ( )
 void terminal_putchar(char c)
 {
 
-	// Special characters "\n" "\t" "\b"
+	// Special characters "\n" "\t" "\b" "\v"
 
 	switch ( c )
 	{
@@ -142,7 +152,6 @@ void terminal_putchar(char c)
 			move_cursor(terminal_row, terminal_column);
 			break;	
 
-			
 		default:
 			terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
 			if ( ++terminal_column == VGA_WIDTH )

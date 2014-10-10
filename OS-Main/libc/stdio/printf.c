@@ -59,7 +59,7 @@ char * itoa( int value, char * str, int base )
     	}
     	return rc;
 }
- 
+
 int printf(const char* restrict format, ...)
 {
 	va_list parameters;
