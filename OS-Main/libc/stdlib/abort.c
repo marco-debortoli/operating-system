@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
  
+// Abort function
 __attribute__((__noreturn__))
 void abort(void)
 {

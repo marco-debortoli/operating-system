@@ -6,13 +6,15 @@
 #if defined(__is_myos_kernel)
 #include <kernel/tty.h>
 #endif
- 
+
+// standard print function (not recommended for use)
 static void print(const char* data, size_t data_length)
 {
 	for ( size_t i = 0; i < data_length; i++ )
 		putchar((int) ((const unsigned char*) data)[i]);
 }
 
+// Converts an integer into a string
 char * itoa( int value, char * str, int base )
 {
 	char * rc;
@@ -60,6 +62,7 @@ char * itoa( int value, char * str, int base )
     	return rc;
 }
 
+// The main print function
 int printf(const char* restrict format, ...)
 {
 	va_list parameters;
@@ -127,6 +130,7 @@ int printf(const char* restrict format, ...)
 	return written;
 }
 
+// Print a character
 int printchar(char c)
 {
 	return printf("%c", c);

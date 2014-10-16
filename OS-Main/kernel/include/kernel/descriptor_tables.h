@@ -1,8 +1,12 @@
 /*
 
 	Defines the interface for initialising GDT and IDT
+	Base Class: arch/i386/descriptor_tables.c
 
 */
+
+#ifndef _KERNEL_DESCRIPTOR_H
+#define _KERNEL_DESCRIPTOR_H
 
 #include <stddef.h>
 #include <stdint.h>
@@ -111,3 +115,5 @@ extern void irq12 ();
 extern void irq13 ();
 extern void irq14 ();
 extern void irq15 ();
+
+#endif

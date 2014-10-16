@@ -1,3 +1,10 @@
+/*
+
+	Header file for standard I/O operations
+	Base Class: libc/stdio -> printf.c -> putchar.c -> puts.c
+
+*/
+
 #ifndef _STDIO_H
 #define _STDIO_H 1
  

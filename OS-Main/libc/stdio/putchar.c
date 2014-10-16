@@ -4,6 +4,7 @@
 #include <kernel/tty.h>
 #endif
  
+// Prints a character -> calls the terminal write functions
 int putchar(int ic)
 {
 #if defined(__is_myos_kernel)

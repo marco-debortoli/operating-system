@@ -11,9 +11,10 @@
 
 /* Hardware text mode color constants. */
 
-uint16_t VERSION = 0.03;
 bool DEBUG = false;
 
+// Called before the main kernel function
+// Initializes all hardware
 void kernel_early(void)
 {
 	terminal_initialize();
@@ -39,6 +40,7 @@ void kernel_early(void)
 	if ( DEBUG ) printf("\n--- PRE-BOOT PROCESS END ---\n\n");
 }
 
+// Main kernel function
 void kernel_main()
 {
 	terminal_setup();

@@ -1,3 +1,10 @@
+/*
+
+	Header file for the terminal mode writing functions
+	Base Class: arch/i386/tty.c
+
+*/
+
 #ifndef _KERNEL_TTY_H
 #define _KERNEL_TTY_H
 

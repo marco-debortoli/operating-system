@@ -13,6 +13,7 @@ uint8_t terminal_color;
 uint16_t* terminal_buffer;
 char* command;
 
+// Initialize the terminal
 void terminal_initialize()
 {
 	terminal_row = 0;
@@ -29,17 +30,20 @@ void terminal_initialize()
 	}
 }
 
+// A function to set the terminal color (color is made with make_color)
 void terminal_setcolor(uint8_t color)
 {
 	terminal_color = color;
 }
 
+// Puts character entry at desired location
 void terminal_putentryat(char c, uint8_t color, size_t x, size_t y)
 {
 	const size_t index = y * VGA_WIDTH + x;
 	terminal_buffer[index] = make_vgaentry(c, color);
 }
 
+// Clears a line
 void clear_line(uint16_t line)
 {
 	for (size_t x = 0; x < VGA_WIDTH; x++)
@@ -49,6 +53,7 @@ void clear_line(uint16_t line)
 	}
 }
 
+// Moves the cursor
 void move_cursor(int row, int col)
 {
 	unsigned short location = (row*80) + col;
@@ -60,11 +65,13 @@ void move_cursor(int row, int col)
 	outportb(0x3D5, (unsigned char)((location >> 8)&0xFF));
 }	
 
+// Gets the current row that the cursor is on
 size_t terminal_getrow( )
 {
 	return terminal_row;
 }
 
+// Gets the current column that the cursor is on
 size_t terminal_getcolumn( )
 {
 	return terminal_column;
@@ -91,12 +98,14 @@ void terminal_scroll()
 
 }
 
+// Creates the > that starts every line
 void terminal_startline ( )
 {
 	terminal_putentryat('>', make_color(COLOR_RED, COLOR_BLACK), terminal_column, terminal_row);
 	terminal_column += 2;
 }
 
+// The main function for putting characters
 void terminal_putchar(char c)
 {
 
@@ -165,6 +174,7 @@ void terminal_putchar(char c)
 	}
 }
 
+// Writes a string
 void terminal_writestring(const char* data)
 {
 	size_t datalen = strlen(data);
@@ -173,16 +183,19 @@ void terminal_writestring(const char* data)
 
 }
 
+// Writes data
 void terminal_write(const char* data, size_t size)
 {
 	for ( size_t i = 0; i < size; i++ )
 		terminal_putchar(data[i]);
 }
 
+// Sets up terminal
 void terminal_setup()
 {
+	// Creates the header at the top of the terminal
 	terminal_color = make_color(COLOR_WHITE, COLOR_DARK_GREY);
-	terminal_writestring("\tMARCO-OS: Version 0.03");
+	terminal_writestring("\tMARCO-OS: Version 0.05");
 	for ( size_t i = 0; i < VGA_WIDTH - 27; i++ )
 	{
 		terminal_putchar(' ');

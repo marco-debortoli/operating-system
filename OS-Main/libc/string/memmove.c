@@ -1,5 +1,6 @@
 #include <string.h>
- 
+
+// Moves the data pointed to to a new location
 void* memmove(void* dstptr, const void* srcptr, size_t size)
 {
 	unsigned char* dst = (unsigned char*) dstptr;

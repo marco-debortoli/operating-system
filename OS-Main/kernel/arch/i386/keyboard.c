@@ -31,6 +31,7 @@ int ALT_PRESSED_SCANCODE = 56;
 int ALT_RELEASED_SCANCODE = 184;
 bool ALT_KEY_PRESSED = false;
 
+/*
 int LEFT_ARROW_PRESSED_SCANCODE = 75;
 int LEFT_ARROW_RELEASED_SCANCODE = 203;
 bool LEFT_ARROW_PRESSED = false;
@@ -40,6 +41,7 @@ volatile int num_horizontal_pressed = 0;
 int RIGHT_ARROW_PRESSED_SCANCODE = 77;
 int RIGHT_ARROW_RELEASED_SCANCODE = 205;
 bool RIGHT_ARROW_PRESSED = false;
+*/
 
 unsigned char kbdus[256] =
 {
@@ -237,6 +239,8 @@ void keyboard_handler(struct regs *r)
 			ALT_KEY_PRESSED = false;
 		}
 
+		/*
+
 		// Left Arrow
 		if ( scancode == LEFT_ARROW_RELEASED_SCANCODE )
 		{ 
@@ -248,6 +252,7 @@ void keyboard_handler(struct regs *r)
 		{ 
 			RIGHT_ARROW_PRESSED = false;
 		}
+		*/
 	}
 	else
 	{
@@ -273,6 +278,7 @@ void keyboard_handler(struct regs *r)
 			ALT_KEY_PRESSED = true;
 		}
 
+		/*
 		// Left Arrow
 		if ( scancode == LEFT_ARROW_PRESSED_SCANCODE )
 		{ 
@@ -284,6 +290,7 @@ void keyboard_handler(struct regs *r)
 		{ 
 			RIGHT_ARROW_PRESSED = true;
 		}
+		*/
 
 		// Capital letters
 		if ( SHIFT_KEY_PRESSED || CAPS_KEY_PRESSED ) scancode = scancode + 128;
@@ -292,10 +299,10 @@ void keyboard_handler(struct regs *r)
 		if ( kbdus[scancode] != 0 )
 		{
 			printchar(kbdus[scancode]);
-			num_horizontal_pressed = 0;
 		}
 
-		// Move cursor when arrows are pressed
+		// Move cursor when arrows are pressed -- DEACTIVATED
+		/*
 
 		if ( LEFT_ARROW_PRESSED && (terminal_getcolumn() - num_horizontal_pressed) > 2 ) 
 		{
@@ -308,6 +315,7 @@ void keyboard_handler(struct regs *r)
 			num_horizontal_pressed--;
 			move_cursor(terminal_getrow(), terminal_getcolumn() - num_horizontal_pressed);
 		}
+		*/
 
 	}
 

@@ -1,3 +1,10 @@
+/*
+
+	Header file for standard library functions
+	Base Class: libc/stdlib/abort.c
+
+*/
+
 #ifndef _STDLIB_H
 #define _STDLIB_H 1
  

@@ -1,3 +1,11 @@
+/*
+
+	Header file containing information regarding VGA
+	No Base Class
+
+*/
+
+
 #ifndef _KERNEL_VGA_H
 #define _KERNEL_VGA_H
 

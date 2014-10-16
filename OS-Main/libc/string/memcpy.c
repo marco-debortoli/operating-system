@@ -1,5 +1,6 @@
 #include <string.h>
  
+// Copies the required data to a new location
 void* memcpy(void* restrict dstptr, const void* restrict srcptr, size_t size)
 {
 	unsigned char* dst = (unsigned char*) dstptr;

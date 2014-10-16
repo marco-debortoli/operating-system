@@ -84,6 +84,7 @@ static void init_idt()
 	
 	memset(&idt_entries, 0, sizeof(idt_entry_t)*256);
 
+	// ISR Gates
 	idt_set_gate( 0, (uint32_t)isr0 , 0x08, 0x8E );
         idt_set_gate( 1, (uint32_t)isr1 , 0x08, 0x8E );
         idt_set_gate( 2, (uint32_t)isr2 , 0x08, 0x8E );
@@ -117,6 +118,7 @@ static void init_idt()
         idt_set_gate( 30, (uint32_t)isr30 , 0x08, 0x8E );
         idt_set_gate( 31, (uint32_t)isr31 , 0x08, 0x8E );
 
+	// IRQ Gates
 	idt_set_gate( 32, (uint32_t)irq0 , 0x08, 0x8E );
 	idt_set_gate( 33, (uint32_t)irq1 , 0x08, 0x8E );
         idt_set_gate( 34, (uint32_t)irq2 , 0x08, 0x8E );
@@ -148,6 +150,7 @@ static void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags
 	idt_entries[num].flags = flags /* | 0x60 */; // For User mode
 }
 
+// Set all IRQ routines to null (0)
 void *irq_routines[16] =
 {
 	0, 0, 0, 0, 0, 0, 0, 0,
@@ -164,6 +167,7 @@ void irq_uninstall_handler(int irq)
 	irq_routines[irq] = 0;
 }
 
+// Important to map IRQ functionality
 void irq_remap()
 {
 	outportb(0x20, 0x11);
@@ -183,12 +187,14 @@ void irq_install()
 	irq_remap();
 }
 
+// Base IRQ Handler
 void irq_handler(struct regs *r)
 {
 	void (*handler)(struct regs *r);
 
 	handler = irq_routines[r->int_no - 32];
 	
+	// If a handler exists run it
 	if (handler)
 	{
 		handler(r);
