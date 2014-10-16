@@ -13,12 +13,15 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
- 
+
+void sendToGets(char);
 int printf(const char* __restrict, ...);
 int putchar(int);
 int puts(const char*);
 char* itoa(int value, char * str, int base);
 int printchar(char c);
+char* gets();
+void stdinput(char);
  
 #ifdef __cplusplus
 }

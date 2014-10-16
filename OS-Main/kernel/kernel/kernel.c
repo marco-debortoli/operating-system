@@ -8,6 +8,7 @@
 #include <kernel/descriptor_tables.h>
 #include <kernel/timer.h>
 #include <kernel/keyboard.h>
+#include <kernel/shell.h>
 
 /* Hardware text mode color constants. */
 
@@ -37,6 +38,10 @@ void kernel_early(void)
 	keyboard_install();
 
 	asm volatile ("sti");
+
+	init_shell();
+
+
 	if ( DEBUG ) printf("\n--- PRE-BOOT PROCESS END ---\n\n");
 }
 
@@ -44,8 +49,11 @@ void kernel_early(void)
 void kernel_main()
 {
 	terminal_setup();
-	
-	//asm volatile("int $0x45");
+
+	while ( 1 )
+	{
+		shell();
+	}
 	
 }
 
