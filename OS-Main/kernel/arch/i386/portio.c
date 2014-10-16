@@ -2,6 +2,8 @@
 // inportb and outportb
 // Header file is portio.h
 
+#include <kernel/portio.h>
+
 unsigned char inportb ( unsigned short port ) 
 {
     unsigned char rv;

@@ -59,7 +59,7 @@ char * itoa( int value, char * str, int base )
     	}
     	return rc;
 }
- 
+
 int printf(const char* restrict format, ...)
 {
 	va_list parameters;
@@ -125,4 +125,9 @@ int printf(const char* restrict format, ...)
 	va_end(parameters);
  
 	return written;
+}
+
+int printchar(char c)
+{
+	return printf("%c", c);
 }
