@@ -9,6 +9,7 @@
 #define _STDIO_H 1
  
 #include <sys/cdefs.h>
+#define MAX_COMMAND_LENGTH 500
  
 #ifdef __cplusplus
 extern "C" {

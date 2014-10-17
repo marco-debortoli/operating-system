@@ -1,9 +1,10 @@
 #include <stddef.h>
 #include <stdio.h>
-#include <stdbool.h>
 #include <string.h>
+
 #include <kernel/tty.h>
 #include <kernel/shell.h>
+#include <kernel/commands.h>
 
 command_table_t CommandTable[MAX_COMMANDS];
 int numCommands = 0;
@@ -35,23 +36,24 @@ int findCommand(char* command)
 	return -1;
 }
 
-
-void help_command()
+void help_command ( ) 
 {
-	printf("TEST\n");
-}
-
-void empty_command()
-{
+	for ( int i = 0; i < numCommands; i ++ )
+	{
+		printf("%i: %s - %s\n", i, CommandTable[i].name, CommandTable[i].description);
+	}
 }
 
 void init_shell()
 {
 
 	numCommands = 0;
-	add_new_command("help\n", "A basic helper function.", help_command);
-	add_new_command("", "", empty_command);
 
+	// Empty "" will also invoke help (the way memcmp works)
+	add_new_command("help", "A basic helper function.", help_command);
+	add_new_command("cls", "Clear the screen.", clear_screen_command);
+	add_new_command("wait", "Wait for 5 seconds.", wait_command);
+	
 }
 
 void shell()
@@ -59,13 +61,9 @@ void shell()
 
 	terminal_startline();
 
-	char* str = "";
+	char* response = gets( );
 
-	gets(str);
-
-	printf("%i", strlen(str));
-
-	int i = findCommand(str);
+	int i = findCommand(response);
 
 	if ( i >= 0 )
 	{
@@ -73,7 +71,7 @@ void shell()
 		command_function();
 		return;
 	}
-	
+
 	printf("Command not found\n");
 	return;
 	

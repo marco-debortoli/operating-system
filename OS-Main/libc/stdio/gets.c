@@ -1,31 +1,47 @@
 #include <stdio.h>
 #include <string.h>
 
-volatile char buffer[500];
+volatile char buffer[MAX_COMMAND_LENGTH];
 volatile int idx = -1;
 
+// Resets all buffer values to 0
+void clearBuffer ( )
+{
+	for ( int i = 0; i < MAX_COMMAND_LENGTH; i++ )
+	{
+		if ( buffer[i] != 0 ) buffer[i] = 0;
+		else break;
+	}
+}
+
 // Gets input from the keyboard
-char* gets( char* str )
+char* gets( )
 {
 	idx = -1;
+	clearBuffer();
 	
 	// Definitely not the optimal way to do it lol
 	while ( buffer[ idx<0 ? 0 : idx ] != '\n' );
 
+	buffer[idx] = 0;
 
-	for ( int i = 0; i < idx; i++ )
-	{
-		*str++ = buffer[i];
-	}
-
-	return str;
+	return buffer;
 }
 
 // From the stdinput function
 void sendToGets(char c)
 {
 
-	if ( c == '\b' || c == '\t' ) return;
+	if ( c == '\t' ) return;
+	if ( c == '\b' )
+	{
+		if ( idx == -1 ) return;		
+
+		buffer[idx] = 0;
+		idx--;
+		return;
+	}
+
 	idx++;
 	buffer[idx] = c;
 }

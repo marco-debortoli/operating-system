@@ -65,6 +65,15 @@ void move_cursor(int row, int col)
 	outportb(0x3D5, (unsigned char)((location >> 8)&0xFF));
 }	
 
+
+// Reset for clear screen
+void terminal_reset( )
+{
+	terminal_row = 1;
+	terminal_column = 0;
+	move_cursor(terminal_row, terminal_column);
+}
+
 // Gets the current row that the cursor is on
 size_t terminal_getrow( )
 {
