@@ -65,6 +65,15 @@ void move_cursor(int row, int col)
 	outportb(0x3D5, (unsigned char)((location >> 8)&0xFF));
 }	
 
+
+// Reset for clear screen
+void terminal_reset( )
+{
+	terminal_row = 1;
+	terminal_column = 0;
+	move_cursor(terminal_row, terminal_column);
+}
+
 // Gets the current row that the cursor is on
 size_t terminal_getrow( )
 {
@@ -103,6 +112,8 @@ void terminal_startline ( )
 {
 	terminal_putentryat('>', make_color(COLOR_RED, COLOR_BLACK), terminal_column, terminal_row);
 	terminal_column += 2;
+	move_cursor(terminal_row, terminal_column);
+
 }
 
 // The main function for putting characters
@@ -118,8 +129,6 @@ void terminal_putchar(char c)
 			terminal_session = 0;
 			terminal_row++;
 			if ( terminal_row == VGA_HEIGHT ) terminal_scroll();
-			
-			terminal_startline ( terminal_row, terminal_column );
 			
 			move_cursor(terminal_row, terminal_column);
 			break;
@@ -200,6 +209,5 @@ void terminal_setup()
 	{
 		terminal_putchar(' ');
 	}
-	terminal_putchar('\n');
 	terminal_color = make_color(COLOR_LIGHT_GREY, COLOR_BLACK);
 }

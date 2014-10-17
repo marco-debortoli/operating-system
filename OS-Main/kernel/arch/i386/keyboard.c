@@ -298,7 +298,7 @@ void keyboard_handler(struct regs *r)
 		// Print regular character
 		if ( kbdus[scancode] != 0 )
 		{
-			printchar(kbdus[scancode]);
+			stdinput(kbdus[scancode]);
 		}
 
 		// Move cursor when arrows are pressed -- DEACTIVATED
