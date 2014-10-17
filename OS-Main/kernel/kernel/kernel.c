@@ -9,6 +9,7 @@
 #include <kernel/timer.h>
 #include <kernel/keyboard.h>
 #include <kernel/shell.h>
+#include <kernel/paging.h>
 
 /* Hardware text mode color constants. */
 
@@ -30,6 +31,10 @@ void kernel_early(void)
 
 	// --- Initialize the Descriptor Tables --- //
 	init_descriptor_tables();
+
+	// --- Initialize Paging --- //
+	if ( DEBUG ) printf("Initializing paging...\n");
+	initialize_paging();
 	
 	// --- Initialize the IRQ Handlers --- //
 	if ( DEBUG ) printf("Initializing IRQ...\n");
@@ -45,9 +50,10 @@ void kernel_early(void)
 
 	asm volatile ("sti");
 
-
 	// --- Initialize the Shell --- //
 	init_shell();
+
+	
 
 	if ( DEBUG ) printf("\n--- PRE-BOOT PROCESS END ---\n\n");
 }
