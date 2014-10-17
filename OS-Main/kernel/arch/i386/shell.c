@@ -53,6 +53,7 @@ void init_shell()
 	add_new_command("help", "A basic helper function.", help_command);
 	add_new_command("cls", "Clear the screen.", clear_screen_command);
 	add_new_command("wait", "Wait for 5 seconds.", wait_command);
+	add_new_command("reboot", "Restarts the computer.", restart_command);
 	
 }
 

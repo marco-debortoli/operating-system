@@ -12,5 +12,6 @@
 
 void clear_screen_command();
 void wait_command();
+void restart_command();
 
 #endif

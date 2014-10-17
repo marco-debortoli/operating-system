@@ -5,6 +5,7 @@
 
 #include <kernel/tty.h>
 #include <kernel/timer.h>
+#include <kernel/reboot.h>
 
 void clear_screen_command ( )
 {
@@ -21,5 +22,15 @@ void clear_screen_command ( )
 void wait_command ( )
 {
 	timer_wait(5);
+}
+
+void restart_command ( )
+{
+	printf("Rebooting in 5 seconds\n");
+
+	// TODO - Eventually add way to stop rebooting
+
+	timer_wait(5);
+	reboot();
 }
 	
