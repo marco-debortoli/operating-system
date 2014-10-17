@@ -30,10 +30,10 @@ OBJS:=\
 $(KERNEL_ARCH_OBJS) \
 kernel/kernel.o \
  
-CRTI_OBJ:=$(ARCHDIR)/crti.o
+CRTI_OBJ:=$(ARCHDIR)/boot/crti.o
 CRTBEGIN_OBJ:=$(shell $(CC) $(CFLAGS) $(LDFLAGS) -print-file-name=crtbegin.o)
 CRTEND_OBJ:=$(shell $(CC) $(CFLAGS) $(LDFLAGS) -print-file-name=crtend.o)
-CRTN_OBJ:=$(ARCHDIR)/crtn.o
+CRTN_OBJ:=$(ARCHDIR)/boot/crtn.o
  
 ALL_OUR_OBJS:=\
 $(CRTI_OBJ) \
@@ -51,8 +51,8 @@ all: myos.kernel
  
 .PHONY: all clean install install-headers install-kernel
  
-myos.kernel: $(OBJ_LINK_LIST) $(ARCHDIR)/linker.ld
-	$(CC) -T $(ARCHDIR)/linker.ld -o $@ $(CFLAGS) $(OBJ_LINK_LIST) $(LDFLAGS) $(LIBS)
+myos.kernel: $(OBJ_LINK_LIST) $(ARCHDIR)/linker/linker.ld
+	$(CC) -T $(ARCHDIR)/linker/linker.ld -o $@ $(CFLAGS) $(OBJ_LINK_LIST) $(LDFLAGS) $(LIBS)
  
 %.o: %.c
 	$(CC) -c $< -o $@ -std=gnu11 $(CFLAGS) $(CPPFLAGS)

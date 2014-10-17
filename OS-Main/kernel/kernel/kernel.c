@@ -57,6 +57,7 @@ void kernel_main()
 {
 	terminal_setup();
 
+
 	// Call the shell (eventually it will have exit status)
 	while ( 1 )
 	{
