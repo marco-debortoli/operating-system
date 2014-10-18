@@ -1,10 +1,12 @@
 #include <string.h>
 
-// Sets the first "num" bytes of the bloack pointed to to the specified value
-void* memset(void* bufptr, int value, size_t size)
+// Write len copies of val into dest.
+void memset(size_t *dest, size_t val, size_t len)
 {
-	unsigned char* buf = (unsigned char*) bufptr;
-	for ( size_t i = 0; i < size; i++ )
-		buf[i] = (unsigned char) value;
-	return bufptr;
+	size_t *temp = (size_t *)dest;
+
+	for ( ; len != 0; len--) 
+	{
+		*temp++ = val;
+	}
 }

@@ -157,6 +157,7 @@ void switch_page_directory(page_directory_t *dir)
 	
 	asm volatile("mov %0, %%cr0":: "b"(cr0));
 
+
 }
 
 page_t *get_page(uint32_t address, int make, page_directory_t* dir)
@@ -166,8 +167,10 @@ page_t *get_page(uint32_t address, int make, page_directory_t* dir)
 
 	uint32_t table_idx = address / 1024;
 	if ( dir->tables[table_idx] ) // already assigned
-		return &dir->tables[table_idx]->pages[address % 1024];
-	
+	{
+		return &dir->tables[table_idx]->pages[address % 1024];	
+	}
+
 	else if(make) // Create the page
 	{
 		uint32_t tmp;
@@ -175,7 +178,10 @@ page_t *get_page(uint32_t address, int make, page_directory_t* dir)
 		dir->tablesPhysical[table_idx] = tmp | 0x7;
 		return &dir->tables[table_idx]->pages[address%1024];
 	}
-	else return 0;
+	else 
+	{
+		return 0;
+	}
 }
 
 void page_fault(struct regs *r)

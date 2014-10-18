@@ -31,14 +31,14 @@ void kernel_early(void)
 
 	// --- Initialize the Descriptor Tables --- //
 	init_descriptor_tables();
-
-	// --- Initialize Paging --- //
-	if ( DEBUG ) printf("Initializing paging...\n");
-	initialize_paging();
 	
 	// --- Initialize the IRQ Handlers --- //
 	if ( DEBUG ) printf("Initializing IRQ...\n");
 	irq_install();
+
+	// --- Initialize Paging --- //
+	if ( DEBUG ) printf("Initializing paging...\n");
+	initialize_paging();
 
 	// --- Install the Timer --- //
 	if ( DEBUG ) printf("Initializing Timer...\n");

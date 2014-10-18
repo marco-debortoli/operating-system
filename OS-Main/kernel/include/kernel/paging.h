@@ -47,7 +47,7 @@ typedef struct page_directory
 void initialize_paging();
 
 // Causes the specified page directory to be loaded into the CR3 register
-void switch_page_directory(page_directory_t *newPage);
+void switch_page_directory(page_directory_t *new);
 
 // Retrieves a pointer to the page
 page_t *get_page(uint32_t address, int make, page_directory_t *dir);
