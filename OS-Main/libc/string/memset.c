@@ -1,12 +1,10 @@
 #include <string.h>
 
 // Write len copies of val into dest.
-void memset(size_t *dest, size_t val, size_t len)
+void* memset(void* bufptr, int value, size_t size)
 {
-	size_t *temp = (size_t *)dest;
-
-	for ( ; len != 0; len--) 
-	{
-		*temp++ = val;
-	}
+	unsigned char* buf = (unsigned char*) bufptr;
+	for ( size_t i = 0; i < size; i++ )
+		buf[i] = (unsigned char) value;
+	return bufptr;
 }

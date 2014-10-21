@@ -121,6 +121,7 @@ void initialize_paging()
 
 	// Make a page directory
 	kernel_directory = (page_directory_t*)kmalloc_a(sizeof(page_directory_t));
+	memset(kernel_directory, 0, sizeof(page_directory_t));
 	current_directory = kernel_directory;
 
 	// Identity map (phys -> vir) from 0x0 to end_of_memory
@@ -202,6 +203,6 @@ void page_fault(struct regs *r)
 	if ( us ) printf("user-mode ");
 	if ( reserved ) printf("reserved ");
 	printf(" ) at 0x");
-	printf("%i\n", (int)faulting_address);
+	printf("%i\n", faulting_address);
 	for (;;);
 }

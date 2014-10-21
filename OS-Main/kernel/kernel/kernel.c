@@ -59,10 +59,14 @@ void kernel_early(void)
 }
 
 // Main kernel function
-void kernel_main()
+int kernel_main()
 {
 	terminal_setup();
 
+	uint32_t *ptr = (uint32_t*)0x400000;
+	uint32_t do_page_fault = *ptr;
+
+	printf("%i" , do_page_fault);
 
 	// Call the shell (eventually it will have exit status)
 	while ( 1 )
