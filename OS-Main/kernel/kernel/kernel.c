@@ -11,6 +11,8 @@
 #include <kernel/shell.h>
 #include <kernel/paging.h>
 
+#include <kernel/panic.h>
+
 /* Hardware text mode color constants. */
 
 bool DEBUG = false;
@@ -63,10 +65,7 @@ int kernel_main()
 {
 	terminal_setup();
 
-	uint32_t *ptr = (uint32_t*)0x400000;
-	uint32_t do_page_fault = *ptr;
-
-	printf("%i" , do_page_fault);
+	asm volatile("int $0x4");
 
 	// Call the shell (eventually it will have exit status)
 	while ( 1 )

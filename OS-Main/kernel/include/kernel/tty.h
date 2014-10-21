@@ -17,6 +17,7 @@ void terminal_writestring(const char* data);
 void terminal_setup();
 void terminal_startline();
 void terminal_reset();
+void terminal_setcolor(uint8_t color);
 void clear_line(int);
 void move_cursor(int row, int col);
 

@@ -26,10 +26,9 @@ void isr_handler(struct regs *r)
     	}
     	else
     	{
-		printf("Received interrupt %i", (int)r->int_no);
+		printf("Received interrupt %i\n", (int)r->int_no);
 
-		// Do nothing (don't want to continually trigger error)
-		for (;;);
+		PANIC("Interrupt Panic");
     	}
 
 

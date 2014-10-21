@@ -84,8 +84,7 @@ void alloc_frame(page_t* page, int is_kernel, int is_writeable)
 		if ( idx == (uint32_t)-1 )
 		{
 			// PANIC
-			printf("PANIC!!!!!!!");
-			for (;;);
+			PANIC("Ran out of memory");
 		}
 		
 		set_frame(idx*0x1000);
@@ -204,5 +203,5 @@ void page_fault(struct regs *r)
 	if ( reserved ) printf("reserved ");
 	printf(" ) at 0x");
 	printf("%i\n", faulting_address);
-	for (;;);
+	PANIC("Paging Fault Panic");
 }
