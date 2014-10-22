@@ -1,4 +1,4 @@
-# README #
+# MARCO-OS #
 
 A simple operating operating system coded in C and Assembly. 
 
@@ -9,5 +9,3 @@ A simple operating operating system coded in C and Assembly.
 * Keyboard driver
 * PIT (timer) driver
 * Paging enabled
-
-
