@@ -8,6 +8,8 @@
 #ifndef _KERNEL_PANIC_H
 #define _KERNEL_PANIC_H
 
+#define ASSERT(b) ((b) ? (void)0 : PANIC("ASSERT FAILED"))
+
 void PANIC(const char* message);
 
 #endif
