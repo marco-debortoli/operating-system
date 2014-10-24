@@ -29,7 +29,7 @@ int findCommand(char* command)
 	for ( int i = 0; i < numCommands; i++)
 	{
 
-		ret = memcmp(command, CommandTable[i].name, strlen(command));
+		ret = strcmp(command, CommandTable[i].name);
 		if ( ret == 0 ) return i;
 	}
 	

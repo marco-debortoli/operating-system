@@ -9,6 +9,9 @@
 #include <kernel/timer.h>
 #include <kernel/keyboard.h>
 #include <kernel/shell.h>
+#include <kernel/paging.h>
+
+#include <kernel/panic.h>
 
 /* Hardware text mode color constants. */
 
@@ -35,6 +38,10 @@ void kernel_early(void)
 	if ( DEBUG ) printf("Initializing IRQ...\n");
 	irq_install();
 
+	// --- Initialize Paging --- //
+	if ( DEBUG ) printf("Initializing paging...\n");
+	initialize_paging();
+
 	// --- Install the Timer --- //
 	if ( DEBUG ) printf("Initializing Timer...\n");
 	timer_install();
@@ -45,9 +52,10 @@ void kernel_early(void)
 
 	asm volatile ("sti");
 
-
 	// --- Initialize the Shell --- //
 	init_shell();
+
+	
 
 	if ( DEBUG ) printf("\n--- PRE-BOOT PROCESS END ---\n\n");
 }
@@ -56,6 +64,11 @@ void kernel_early(void)
 void kernel_main()
 {
 	terminal_setup();
+
+	uint32_t *ptr = (uint32_t*)0xA0000000;
+	uint32_t do_page_fault = *ptr;
+
+	printf("%i", do_page_fault);
 
 	// Call the shell (eventually it will have exit status)
 	while ( 1 )
