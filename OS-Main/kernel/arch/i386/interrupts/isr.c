@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <kernel/portio.h>
+#include <kernel/panic.h>
 
 void* interrupt_handlers[256];
 

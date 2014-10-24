@@ -15,7 +15,7 @@ static void print(const char* data, size_t data_length)
 }
 
 // Converts an integer into a string
-char * itoa( int value, char * str, int base )
+char * itoa( long long value, char * str, int base )
 {
 	char * rc;
 	char * ptr;
@@ -119,6 +119,14 @@ int printf(const char* restrict format, ...)
 			itoa(a, buffer, 10);
 			print(buffer, strlen(buffer));
 		}
+		else if ( *format == 'x' )
+		{
+			format++;
+			unsigned int a = va_arg(parameters, const char*);
+			char buffer[32];
+			itoa(a, buffer, 16);
+			print(buffer, strlen(buffer));
+		}			
 		else
 		{
 			goto incomprehensible_conversion;

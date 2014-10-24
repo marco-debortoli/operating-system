@@ -6,6 +6,7 @@
 #include <kernel/heap.h>
 #include <kernel/portio.h>
 #include <kernel/isr.h>
+#include <kernel/panic.h>
 
 // IMPORTANT NOTE 0x1000 is 4MB
 
@@ -187,7 +188,7 @@ page_t *get_page(uint32_t address, int make, page_directory_t* dir)
 void page_fault(struct regs *r)
 {
 	// Page fault handler
-	uint32_t faulting_address;
+	uint32_t faulting_address = 0x0;
 	asm volatile ("mov %%cr2, %0" : "=r" (faulting_address));
 
 	// The error code gives us details of what happened.
@@ -202,6 +203,9 @@ void page_fault(struct regs *r)
 	if ( us ) printf("user-mode ");
 	if ( reserved ) printf("reserved ");
 	printf(" ) at 0x");
-	printf("%i\n", faulting_address);
+
+
+	printf("%x\n", (unsigned int)(faulting_address));
+
 	PANIC("Paging Fault Panic");
 }

@@ -61,11 +61,14 @@ void kernel_early(void)
 }
 
 // Main kernel function
-int kernel_main()
+void kernel_main()
 {
 	terminal_setup();
 
-	asm volatile("int $0x4");
+	uint32_t *ptr = (uint32_t*)0xA0000000;
+	uint32_t do_page_fault = *ptr;
+
+	printf("%i", do_page_fault);
 
 	// Call the shell (eventually it will have exit status)
 	while ( 1 )
