@@ -54,7 +54,8 @@ void init_shell()
 	add_new_command("cls", "Clear the screen.", clear_screen_command);
 	add_new_command("wait", "Wait for 5 seconds.", wait_command);
 	add_new_command("reboot", "Restarts the computer.", restart_command);
-	
+	add_new_command("date", "Gets the date.", get_date_command);
+	add_new_command("time", "Gets the time.", get_time_command);
 }
 
 void shell()
