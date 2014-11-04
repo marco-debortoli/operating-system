@@ -33,7 +33,7 @@ void get_date_command ( )
 
 	get_date(&year, &month, &day);
 	
-	printf("Date (month/day/year): %i/%i/%i\n", month, day, year);
+	printf("Date (month/day/year): %s%i/%s%i/%i\n", (month > 10) ? "" : "0", month, (day > 10) ? "" : "0", day, year);
 
 }
 
@@ -47,7 +47,7 @@ void get_time_command ( )
 
 
 	// Subtract 4 off hour for time zone correction
-	printf("Time: %i:%i:%s%i\n", hour - 4, minute, (second > 10) ? "" : "0", second);
+	printf("Time: %i:%s%i:%s%i\n", hour - 4, (minute > 10) ? "" : "0", minute, (second > 10) ? "" : "0", second);
 }
 
 void restart_command ( )
