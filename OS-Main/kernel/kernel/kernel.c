@@ -10,6 +10,7 @@
 #include <kernel/keyboard.h>
 #include <kernel/shell.h>
 #include <kernel/paging.h>
+#include <kernel/heap.h>
 
 #include <kernel/panic.h>
 
@@ -65,10 +66,31 @@ void kernel_main()
 {
 	terminal_setup();
 
+	/* Test Paging fault
+
 	uint32_t *ptr = (uint32_t*)0xA0000000;
 	uint32_t do_page_fault = *ptr;
 
 	printf("%i", do_page_fault);
+
+	*/
+
+	/* Test Heap
+	
+	uint32_t a = kmalloc(8);
+	uint32_t b = kmalloc(8);
+
+	printf("a: %x, b: %x\n", a, b);
+	
+	kfree(b);
+	kfree(a);
+
+	uint32_t c = kmalloc(12);
+	printf("c: %x", c);
+
+	for(;;);
+
+	*/
 
 	// Call the shell (eventually it will have exit status)
 	while ( 1 )
