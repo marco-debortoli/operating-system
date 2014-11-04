@@ -9,3 +9,5 @@ A simple operating operating system coded in C and Assembly.
 * Keyboard driver
 * PIT (timer) driver
 * Paging enabled
+* Kernel heap
+* CMOS driver
